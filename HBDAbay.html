@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Birthday Express - 01102026</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #101827;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           GENERAL
+        ========================= */
+
+        .page {
+            min-height: 100vh;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            text-align: center;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.25s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================
+           STARS
+        ========================= */
+
+        .star {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.2;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* =========================
+           STATION
+        ========================= */
+
+        #station {
+            background:
+                linear-gradient(
+                    rgba(16, 24, 39, 0.7),
+                    rgba(16, 24, 39, 0.9)
+                ),
+                #182337;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .station-board {
+            display: inline-block;
+            background: #f5e6bd;
+            color: #172033;
+            padding: 18px 35px;
+            border: 8px solid #b13b32;
+            border-radius: 8px;
+            box-shadow: 0 10px 0 #71251f;
+            margin-bottom: 35px;
+        }
+
+        .station-board h1 {
+            font-size: clamp(30px, 7vw, 65px);
+            letter-spacing: 4px;
+        }
+
+        .station-board p {
+            margin-top: 8px;
+            font-size: 15px;
+            letter-spacing: 3px;
+        }
+
+        .departure {
+            background: #111827;
+            border: 2px solid #e7c66a;
+            padding: 18px;
+            margin: 20px auto;
+            max-width: 500px;
+            font-family: monospace;
+            font-size: 17px;
+        }
+
+        .departure span {
+            color: #e7c66a;
+        }
+
+        .start-btn {
+            background: #d4473d;
+            color: white;
+            padding: 16px 35px;
+            border-radius: 5px;
+            font-size: 18px;
+            box-shadow: 0 5px 0 #8e2b25;
+        }
+
+        /* =========================
+           TRAIN
+        ========================= */
+
+        .train-area {
+            position: absolute;
+            bottom: 95px;
+            width: 100%;
+            left: 0;
+        }
+
+        .train {
+            position: relative;
+            width: 300px;
+            height: 110px;
+            margin: auto;
+            animation: trainBounce 0.8s infinite alternate;
+        }
+
+        .engine {
+            position: absolute;
+            right: 0;
+            bottom: 25px;
+            width: 150px;
+            height: 70px;
+            background: #c83f35;
+            border-radius: 8px 20px 5px 5px;
+        }
+
+        .engine::before {
+            content: "";
+            position: absolute;
+            left: -35px;
+            bottom: 0;
+            width: 40px;
+            height: 45px;
+            background: #c83f35;
+        }
+
+        .chimney {
+            position: absolute;
+            top: -30px;
+            left: 35px;
+            width: 25px;
+            height: 30px;
+            background: #333b48;
+        }
+
+        .smoke {
+            position: absolute;
+            top: -60px;
+            left: 35px;
+            font-size: 30px;
+            animation: smoke 2s infinite;
+        }
+
+        .window {
+            position: absolute;
+            top: 13px;
+            right: 20px;
+            width: 45px;
+            height: 35px;
+            background: #e7c66a;
+            border: 5px solid #242b38;
+        }
+
+        .cabin {
+            position: absolute;
+            left: 0;
+            bottom: 25px;
+            width: 110px;
+            height: 65px;
+            background: #284b63;
+            border-radius: 8px 3px 3px 3px;
+        }
+
+        .cabin-window {
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: #e7c66a;
+            border: 4px solid #172033;
+        }
+
+        .wheel {
+            position: absolute;
+            bottom: 0;
+            width: 35px;
+            height: 35px;
+            background: #222;
+            border: 7px solid #888;
+            border-radius: 50%;
+        }
+
+        .wheel.one {
+            left: 25px;
+        }
+
+        .wheel.two {
+            left: 90px;
+        }
+
+        .wheel.three {
+            right: 25px;
+        }
+
+        @keyframes trainBounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-4px);
+            }
+        }
+
+        @keyframes smoke {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+        }
+
+        /* =========================
+           RAIL
+        ========================= */
+
+        .rail {
+            position: absolute;
+            bottom: 50px;
+            width: 100%;
+            height: 10px;
+            background: #777;
+        }
+
+        .rail::after {
+            content: "";
+            position: absolute;
+            top: 25px;
+            width: 100%;
+            height: 10px;
+            background: #777;
+        }
+
+        .sleepers {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            height: 45px;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent 0px,
+                transparent 35px,
+                #624832 35px,
+                #624832 50px
+            );
+        }
+
+        /* =========================
+           TICKET
+        ========================= */
+
+        #ticket {
+            background: #182337;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ticket-card {
+            background: #f5e6bd;
+            color: #182337;
+            max-width: 650px;
+            width: 90%;
+            margin: auto;
+            padding: 35px;
+            border-radius: 10px;
+            border-left: 15px dashed #d4473d;
+            border-right: 15px dashed #d4473d;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        .ticket-card h2 {
+            font-size: 38px;
+            margin-bottom: 25px;
+        }
+
+        .ticket-number {
+            font-family: monospace;
+            font-size: 25px;
+            color: #d4473d;
+            margin: 15px 0;
+        }
+
+        .ticket-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            text-align: left;
+            margin: 25px 0;
+        }
+
+        .ticket-info div {
+            border-bottom: 2px dashed #aaa;
+            padding: 10px;
+        }
+
+        .continue-btn {
+            background: #284b63;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 5px;
+        }
+
+        /* =========================
+           PHOTO CARRIAGE
+        ========================= */
+
+        #memory {
+            background: #101827;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .carriage {
+            background: #e8d6ad;
+            color: #182337;
+            width: 90%;
+            max-width: 650px;
+            padding: 30px;
+            border-radius: 15px;
+            border-bottom: 15px solid #b13b32;
+        }
+
+        .carriage h2 {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        .carriage p {
+            margin-bottom: 20px;
+        }
+
+        .photo-frame {
+            width: min(300px, 80%);
+            margin: auto;
+            background: white;
+            padding: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            transform: rotate(-2deg);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        .caption {
+            font-family: cursive;
+            font-size: 22px;
+            margin-top: 15px;
+        }
+
+        .next-btn {
+            margin-top: 25px;
+            background: #d4473d;
+            color: white;
+            padding: 14px 30px;
+            border-radius: 5px;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #message {
+            background: #172033;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .message-board {
+            width: 90%;
+            max-width: 700px;
+            background: #f5e6bd;
+            color: #172033;
+            padding: 40px;
+            border-radius: 8px;
+            border: 8px solid #284b63;
+        }
+
+        .message-board h2 {
+            font-size: 35px;
+            margin-bottom: 25px;
+        }
+
+        .message-board p {
+            font-size: 20px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FINAL STATION
+        ========================= */
+
+        #final {
+            background:
+                radial-gradient(circle at top, #304b6b, #101827 70%);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .final-content {
+            width: 90%;
+            max-width: 750px;
+        }
+
+        .final-content h1 {
+            font-size: clamp(45px, 10vw, 90px);
+            color: #e7c66a;
+            text-shadow: 4px 4px #8c6d25;
+            margin-bottom: 10px;
+        }
+
+        .age {
+            font-size: 100px;
+            color: #d4473d;
+            font-weight: bold;
+        }
+
+        .final-content p {
+            font-size: 22px;
+            line-height: 1.6;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .party-btn {
+            background: #e7c66a;
+            color: #172033;
+            padding: 18px 35px;
+            font-size: 19px;
+            border-radius: 5px;
+        }
+
+        /* =========================
+           CONFETTI
+        ========================= */
+
+        .confetti {
+            position: fixed;
+            top: -20px;
+            width: 10px;
+            height: 15px;
+            z-index: 999;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform:
+                    translateY(110vh)
+                    rotate(720deg);
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .station-board {
+                padding: 15px 20px;
+            }
+
+            .station-board h1 {
+                font-size: 32px;
+            }
+
+            .ticket-card h2,
+            .carriage h2,
+            .message-board h2 {
+                font-size: 28px;
+            }
+
+            .ticket-info {
+                grid-template-columns: 1fr;
+            }
+
+            .train {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =================================
+         STASIUN
+    ================================== -->
+
+    <section id="station" class="page active">
+
+        <div class="container">
+
+            <div class="station-board">
+                <h1>🚉 BIRTHDAY EXPRESS</h1>
+                <p>STASIUN KEBERANGKATAN</p>
+            </div>
+
+            <div class="departure">
+                DESTINASI:
+                <span>STASIUN ABAY</span>
+                <br><br>
+                KERETA:
+                <span>BE-05</span>
+                <br><br>
+                STATUS:
+                <span>SIAP BERANGKAT?</span>
+            </div>
+
+            <button class="start-btn" onclick="goTo('ticket')">
+                🎫 NAIK KERETA
+            </button>
+
+        </div>
+
+        <div class="train-area">
+
+            <div class="train">
+
+                <div class="smoke">☁️</div>
+
+                <div class="cabin">
+                    <div class="cabin-window"></div>
+                </div>
+
+                <div class="engine">
+                    <div class="chimney"></div>
+                    <div class="window"></div>
+                </div>
+
+                <div class="wheel one"></div>
+                <div class="wheel two"></div>
+                <div class="wheel three"></div>
+
+            </div>
+
+        </div>
+
+        <div class="sleepers"></div>
+        <div class="rail"></div>
+
+    </section>
+
+
+    <!-- =================================
+         TIKET
+    ================================== -->
+
+    <section id="ticket" class="page">
+
+        <div class="ticket-card">
+
+            <h2>🎫 TIKET PERJALANAN</h2>
+
+            <div class="ticket-number">
+                BE-00005
+            </div>
+
+            <div class="ticket-info">
+
+                <div>
+                    <b>PENUMPANG</b><br>
+                    Bay
+                </div>
+
+                <div>
+                    <b>USIA</b><br>
+                    5 Tahun
+                </div>
+
+                <div>
+                    <b>KERETA</b><br>
+                    Birthday Express 01102026
+                </div>
+
+                <div>
+                    <b>KELAS</b><br>
+                    Birthday VIP 5th
+                </div>
+
+            </div>
+
+            <p>
+                Tiket ini berlaku untuk satu perjalanan
+                menuju hari yang sangat spesial.
+            </p>
+
+            <br>
+
+            <button class="continue-btn" onclick="goTo('memory')">
+                🚂 BERANGKAT!
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         FOTO
+    ================================== -->
+
+    <section id="memory" class="page">
+
+        <div class="carriage">
+
+            <h2>📸 GERBONG KENANGAN</h2>
+
+            <p>
+                Selama perjalanan, jangan lupa melihat
+                salah satu penumpang paling spesial hari ini...
+            </p>
+
+            <div class="photo-frame">
+                <img src="ABAYYY.jpeg" alt="Foto abay">
+            </div>
+
+            <div class="caption">
+                "Our little passenger is turning 5th!🚂"
+            </div>
+
+            <button class="next-btn" onclick="goTo('message')">
+                ➡️ BENTAR LAGI NYAMPE STASIUNN
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         PESAN
+    ================================== -->
+
+    <section id="message" class="page">
+
+        <div class="message-board">
+
+            <h2>💌 PENGUMUMAN DARI KONDEKTUR</h2>
+
+            <p>
+                Perhatian kepada penumpang
+                Birthday Express 01102026...
+            </p>
+
+            <br>
+
+            <p>
+                Hari ini kita sedang melakukan perjalanan
+                menuju sebuah hari yang sangat spesial.
+                Seorang bocil, <b>Abay</b>
+                Sudah 5 tahun yeyyy.....
+            </p>
+
+            <br>
+
+            <p>
+                Semoga selalu diberi kesehatan, jadi anak sholehhh,
+                anak pinterrr, bahagia, ceria, sehat, semangattt
+                dan selalu bertemu dengan hal baik.
+            </p>
+
+            <p>
+                Dari O Fajarrr
+            </p>
+            <br>
+
+            <p>
+                Dan sekarang...
+                kereta sudah hampir sampai! 🚂
+            </p>
+
+            <button class="next-btn" onclick="goTo('final')">
+                🚉 TIBA DI STASIUN TUJUAN
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         FINAL
+    ================================== -->
+
+    <section id="final" class="page">
+
+        <div class="final-content">
+            <style>
+                body { font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+            </style> 
+                <div style="font-size: 70px;">
+                🚂
+            </div>
+
+            <h1>HAPPY BIRTHDAY!</h1>
+
+            <div class="age">
+                5 tahun
+            </div>
+
+            <p>
+                Selamat ulang tahun, <b>ABAYYY!</b> 🎂
+                <br>
+                Kereta Birthday Express akhirnya
+                tiba di stasiun pesta!
+            </p>
+
+            <button class="party-btn" onclick="party()">
+                🎉 COBA PENCET!
+            </button>
+
+        </div>
+
+
+        
+    </section>
+
+
+    <script>
+
+        /* =========================
+           PINDAH HALAMAN
+        ========================= */
+
+        function goTo(pageId) {
+
+            const pages = document.querySelectorAll(".page");
+
+            pages.forEach(page => {
+                page.classList.remove("active");
+            });
+
+            document.getElementById(pageId).classList.add("active");
+
+            window.scrollTo(0, 0);
+        }
+
+
+        /* =========================
+           CONFETTI
+        ========================= */
+
+        function party() {
+
+            const symbols = [
+                "🎉",
+                "HBD",
+                "5th",
+                "🎊",
+                "⭐",
+                "🎈",
+                "✨",
+                "🚂"
+            ];
+
+            for (let i = 0; i < 80; i++) {
+
+                const confetti = document.createElement("div");
+
+                confetti.classList.add("confetti");
+
+                confetti.innerHTML =
+                    symbols[Math.floor(Math.random() * symbols.length)];
+
+                confetti.style.left =
+                    Math.random() * 100 + "vw";
+
+                confetti.style.fontSize =
+                    (Math.random() * 15 + 10) + "px";
+
+                confetti.style.animationDuration =
+                    (Math.random() * 2 + 2) + "s";
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    confetti.remove();
+                }, 4000);
+            }
+
+        }
+
+
+        /* =========================
+           BINTANG LANGIT
+        ========================= */
+
+        function createStars() {
+
+            const station = document.getElementById("station");
+
+            for (let i = 0; i < 50; i++) {
+
+                const star = document.createElement("div");
+
+                star.classList.add("star");
+
+                star.style.left =
+                    Math.random() * 100 + "%";
+
+                star.style.top =
+                    Math.random() * 60 + "%";
+
+                star.style.animationDelay =
+                    Math.random() * 2 + "s";
+
+                station.appendChild(star);
+
+            }
+
+        }
+
+        createStars();
+
+    </script>
+<script>
+
+function departTrain() {
+
+    const train = document.getElementById("train");
+
+    train.classList.add("departing");
+
+}
+
+</script>
+</body>
+</html>

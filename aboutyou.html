@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 1975 - About You (Floating Lyrics)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0d0f18; /* Latar belakang gelap estetis */
+            color: rgba(255, 255, 255, 0.25);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Container utama pembungkus lirik */
+        .window-container {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            position: relative;
+            mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+        }
+
+        /* Track lirik yang bergerak melayang ke atas */
+        .lyrics-tracker {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: absolute;
+            width: 100%;
+            top: 40%; /* Mengunci posisi baris aktif di area tengah */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* Gaya tiap baris lirik */
+        .lyric-line {
+            font-size: 1.4rem;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: -0.5px;
+            transition: color 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+            filter: blur(1px); /* Lirik tidak aktif sedikit blur */
+        }
+
+        /* Gaya baris lirik yang sedang menyala/aktif */
+        .lyric-line.active {
+            color: #ffffff;
+            filter: blur(0px);
+            transform: scale(1.08);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Penanda baris kosong/spasi antar bait */
+        .space {
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="window-container">
+        <div class="lyrics-tracker" id="lyrics-box">
+            <!-- Verse 1 -->
+            <div class="lyric-line active">I know a place</div>
+            <div class="lyric-line">It's somewhere I go when I need to remember your face</div>
+            <div class="lyric-line">We get married in our heads</div>
+            <div class="lyric-line">Something to do while we try to recall how we met</div>
+            <div class="space"></div>
+            <!-- Chorus -->
+            <div class="lyric-line">Do you think I have forgotten?</div>
+            <div class="lyric-line">Do you think I have forgotten?</div>
+            <div class="lyric-line">Do you think I have forgotten about you?</div>
+            <div class="space"></div>
+            <!-- Verse 2 -->
+            <div class="lyric-line">You and I, we're alive</div>
+            <div class="lyric-line">With nothing to do, I could lay and just look in your eyes</div>
+            <div class="lyric-line">Wait, and pretend</div>
+            <div class="lyric-line">Hold on, and hope that we'll find our way back in the end</div>
+            <div class="space"></div>
+            <!-- Chorus -->
+            <div class="lyric-line">Do you think I have forgotten?</div>
+            <div class="lyric-line">Do you think I have forgotten?</div>
+            <div class="lyric-line">Do you think I have forgotten about you?</div>
+        </div>
+    </div>
+
+    <script>
+        const tracker = document.getElementById('lyrics-box');
+        // Hanya mengambil elemen yang memiliki class 'lyric-line' (mengabaikan class 'space')
+        const lines = document.querySelectorAll('.lyric-line'); 
+        let currentIdx = 0;
+
+        // Mengatur perpindahan lirik otomatis setiap 3,5 detik
+        setInterval(() => {
+            // Hapus status aktif dari lirik sebelumnya
+            lines[currentIdx].classList.remove('active');
+            
+            // Pindah ke indeks baris berikutnya
+            currentIdx = (currentIdx + 1) % lines.length;
+            
+            // Aktifkan baris lirik yang baru
+            lines[currentIdx].classList.add('active');
+            
+            // Hitung jarak melayang ke atas berdasarkan posisi baris yang aktif
+            const offset = lines[currentIdx].offsetTop - lines[0].offsetTop;
+            tracker.style.transform = `translateY(-${offset}px)`;
+        }, 3500);
+    </script>
+</body>
+</html>
